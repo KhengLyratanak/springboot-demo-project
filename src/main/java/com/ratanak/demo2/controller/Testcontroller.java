@@ -1,0 +1,37 @@
+package com.ratanak.demo2.controller;
+
+import com.ratanak.demo2.model.BaseResponseModel;
+import com.ratanak.demo2.model.UserModel;
+import com.ratanak.demo2.model.UserResponseModel;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import com.ratanak.demo2.UserService;
+
+@RestController
+@RequestMapping("/api/v1/users")
+public class Testcontroller {
+    @Autowired
+    private UserService userService;
+
+    @GetMapping()
+    public ResponseEntity<UserResponseModel>ListUsers() {
+        return userService.ListUsers();
+    }
+
+    @PostMapping()
+    public ResponseEntity<BaseResponseModel> createUser(@RequestBody UserModel payload) {
+        return userService.createUser(payload);
+    }
+
+    //endpoint  /api/v1/users/id
+    @PutMapping("/{user_id}")
+    public ResponseEntity<BaseResponseModel> updateUser(@PathVariable("user_id") Long userId, @RequestBody UserModel payload) {
+        return userService.updateUser(payload, userId);
+    }
+    //that call path veriable
+    @DeleteMapping("/{user_id}")
+    public ResponseEntity<BaseResponseModel> deleteUser(@PathVariable("user_id") Long userId) {
+        return userService.deleteUser(userId);
+        }
+    }
