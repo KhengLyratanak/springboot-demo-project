@@ -1,11 +1,8 @@
-package com.ratanak.demo2;
+package com.ratanak.demo2.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 @Data
 @Entity

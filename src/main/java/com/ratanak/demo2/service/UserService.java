@@ -1,9 +1,10 @@
-package com.ratanak.demo2;
+package com.ratanak.demo2.service;
 
 import com.ratanak.demo2.model.BaseResponseModel;
+import com.ratanak.demo2.model.BaseResponseWithDataModel;
 import com.ratanak.demo2.model.UserModel;
-import com.ratanak.demo2.model.UserResponseModel;
 import com.ratanak.demo2.repository.UserRepository;
+import com.ratanak.demo2.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +23,10 @@ public class UserService {
     private List<UserModel> users = new ArrayList<>(Arrays.asList(
             new UserModel(1L, "John", 23, "Phnom Penh","admin","dgjf")
     ));
-    public ResponseEntity<UserResponseModel> ListUsers() {
+    public ResponseEntity<BaseResponseWithDataModel> ListUsers() {
+        List<User> userData = userRepository.findAll();
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new UserResponseModel("success","successfully retrieve users"));
+                .body(new BaseResponseWithDataModel("success","successfully retrieve users",userData));
     }
     public ResponseEntity<BaseResponseModel> createUser(UserModel payload) {
        User user = new User();

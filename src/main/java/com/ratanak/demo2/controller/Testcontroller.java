@@ -1,12 +1,12 @@
 package com.ratanak.demo2.controller;
 
 import com.ratanak.demo2.model.BaseResponseModel;
+import com.ratanak.demo2.model.BaseResponseWithDataModel;
 import com.ratanak.demo2.model.UserModel;
-import com.ratanak.demo2.model.UserResponseModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.ratanak.demo2.UserService;
+import com.ratanak.demo2.service.UserService;
 
 @RestController
 @RequestMapping("/api/v1/users")
@@ -15,7 +15,7 @@ public class Testcontroller {
     private UserService userService;
 
     @GetMapping()
-    public ResponseEntity<UserResponseModel>ListUsers() {
+    public ResponseEntity<BaseResponseWithDataModel>ListUsers() {
         return userService.ListUsers();
     }
 

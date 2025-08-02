@@ -1,7 +1,86 @@
 package com.ratanak.demo2.service;
 
+import com.ratanak.demo2.controller.ProductController;
+import com.ratanak.demo2.entity.Product;
+import com.ratanak.demo2.model.BaseResponseModel;
+import com.ratanak.demo2.model.BaseResponseWithDataModel;
+import com.ratanak.demo2.model.ProductModel;
+import com.ratanak.demo2.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
+    @Autowired
+    private ProductRepository productRepository;
+    public ResponseEntity<BaseResponseWithDataModel> listProducts(){
+        List<Product> products = productRepository.findAll();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new BaseResponseWithDataModel("succes","successfully retrieve product",products));
+    }
+    public ResponseEntity<BaseResponseWithDataModel>getProduct(Long productId){
+        Optional<Product> product = productRepository.findById(productId);
+        if(product.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new BaseResponseWithDataModel("fail","Product not found with id: "+productId,null));
+
+        }
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new BaseResponseWithDataModel("success","product found",product.get()));
+    }
+
+    public ResponseEntity<BaseResponseModel> createProduct(ProductModel product){
+        Product productEntity = new Product();
+        productEntity.setProductName(product.getName());
+        productEntity.setDescription(product.getDescription());
+        productEntity.setPrice(product.getPrice());
+        productEntity.setCreatedAt(LocalDateTime.now());
+        productRepository.save(productEntity);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new BaseResponseModel("success","success fully created product"));
+
+    }
+    public ResponseEntity<BaseResponseModel> updateProduct(Long productId,ProductModel product){
+        Optional<Product> existing = productRepository.findById(productId);
+        if(existing.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new BaseResponseModel("Fail","product not found with id "+productId));
+
+        }
+        Product updatedProduct = existing.get();
+        updatedProduct.setProductName(product.getName());
+        updatedProduct.setDescription(product.getDescription());
+        updatedProduct.setPrice(product.getPrice());
+        updatedProduct.setUpdatedAt(LocalDateTime.now());
+
+        productRepository.save(updatedProduct);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new BaseResponseModel("success","successfully updated product"));
+    }
+    public ResponseEntity<BaseResponseModel> deleteProduct(Long productId){
+        if(!productRepository.existsById(productId)){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new BaseResponseModel("fail","product not found with id: "+productId));
+        }
+        productRepository.deleteById(productId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new BaseResponseModel("success","successfully deleted product id : "+productId));
+    }
+    public ResponseEntity<BaseResponseWithDataModel> searchProducts
+            (String name){
+        String formattedName = name !=null?
+                name.toLowerCase()
+                : null;
+    List<Product> product = productRepository.findProductsWithFilters(name.toLowerCase());
+    return ResponseEntity.status(HttpStatus.OK)
+            .body(new BaseResponseWithDataModel("success","product retrieved", product));
+    }
 }
