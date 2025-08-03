@@ -8,10 +8,19 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+import static org.springframework.data.repository.query.parser.Part.Type.LIKE;
+
 @Repository
 public interface ProductRepository extends JpaRepository<Product,Long> {
-    @Query("SELECT p FROM Product p WHERE :name IS NULL OR LOWER(p.productName) LIKE %:name%")
-    List<Product> findProductsWithFilters(@Param("name") String name );
+    @Query("SELECT p FROM Product p WHERE" +
+            "(:name IS NULL OR LOWER(p.productName)  LIKE %:name%) AND" +
+            "(:minPrice IS NULL OR p.price >= :minPrice) AND" +
+            "(:maxPrice IS NULL OR p.price <= :maxPrice) "
+            )
+    List<Product> findProductsWithFilters(
+            @Param("name") String name ,
+            @Param("minPrice" ) Double minPrice,
+            @Param("maxPrice") Double maxPrice
 
-
+    );
 }

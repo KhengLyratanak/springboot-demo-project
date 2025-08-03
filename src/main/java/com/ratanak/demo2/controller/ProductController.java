@@ -24,9 +24,11 @@ public class ProductController {
     }
     @GetMapping("/search")
     public ResponseEntity<BaseResponseWithDataModel> searchProductsByFilters(
-            @RequestParam(value = "name",required = false) String name
+            @RequestParam(value = "name",required = false) String name,
+            @RequestParam(value = "minPrice ",required = false) Double minPrice,
+            @RequestParam(value = "maxPrice",required = false) Double maxPrice
     ){
-        return productService.searchProducts(name);
+        return productService.searchProducts(name,minPrice,maxPrice);
     }
 
     @PostMapping
@@ -34,7 +36,7 @@ public class ProductController {
     return  productService.createProduct(payload);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<BaseResponseModel> updateProduct(@PathVariable("id") Long productId,@RequestBody ProductModel payload){
+    public ResponseEntity<BaseResponseModel> updatellProduct(@PathVariable("id") Long productId,@RequestBody ProductModel payload){
         return productService.updateProduct(productId,payload);
     }
     @DeleteMapping("/{id}")
