@@ -60,16 +60,11 @@ public class UserService {
 
         if(existing.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new BaseResponseModel("fail","user not found with id "+userid));
+                    .body(new BaseResponseModel("fail","user nott found with id "+userid));
         }
         //user found
         User updatedUser = existing.get();
-        // modify value
-        updatedUser.setName(payload.getFirstName());
-        updatedUser.setAge(payload.getAge());
-        updatedUser.setRole(payload.getRole());
-        updatedUser.setEmail(payload.getEmail());
-        updatedUser.setAddress(payload.getAddress());
+        mapper.updateEntityFromDto(updatedUser,payload);
 
         userRepository.save(updatedUser);
 
