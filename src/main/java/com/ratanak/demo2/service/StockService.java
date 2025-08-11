@@ -1,10 +1,11 @@
 package com.ratanak.demo2.service;
 
+import com.ratanak.demo2.dto.stock.StockDto;
 import com.ratanak.demo2.entity.Stock;
+import com.ratanak.demo2.mapper.StockMapper;
 import com.ratanak.demo2.model.BaseResponseModel;
 import com.ratanak.demo2.model.BaseResponseWithDataModel;
-import com.ratanak.demo2.model.stock.StockModel;
-import com.ratanak.demo2.model.stock.UpdateStockModel;
+import com.ratanak.demo2.dto.stock.UpdateStockDto;
 import com.ratanak.demo2.repository.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,22 +20,31 @@ import java.util.Optional;
 public class StockService {
     @Autowired
     private StockRepository stockRepository;
+    @Autowired
+    private StockMapper mapper;
     public ResponseEntity<BaseResponseWithDataModel> listStock(){
         List<Stock> stocks = stockRepository.findAll();
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new BaseResponseWithDataModel("Success ","Successfully retrieve stock",stocks));
+                .body(new BaseResponseWithDataModel("Success ","Successfully retrieve stock",
+                        mapper.toDtoList(stocks)));
     }
-    public ResponseEntity<BaseResponseModel> createStock(StockModel stock){
-        Stock stockEntity = new Stock();
-        stockEntity.setQuantity(stock.getQuantity());
-        stockEntity.setProductId(stock.getProductId());
-        stockEntity.setCreatedAt(LocalDateTime.now());
+    public ResponseEntity<BaseResponseWithDataModel> getStock(Long stockId){
+        Optional<Stock> stock = stockRepository.findById(stockId);
+        if (stock.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new BaseResponseWithDataModel("fail","stock not found with id :"+stockId,null));
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new BaseResponseWithDataModel("success ","stock found",stock.get()));
+    }
+    public ResponseEntity<BaseResponseModel> createStock(StockDto stock){
+        Stock stockEntity = mapper.toEntity(stock);
 
         stockRepository.save(stockEntity);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new BaseResponseModel("success","successfully created stock") );
     }
-    public ResponseEntity<BaseResponseModel> adjustQuantity(Long stockId,UpdateStockModel updateStock){
+    public ResponseEntity<BaseResponseModel> adjustQuantity(Long stockId, UpdateStockDto updateStock){
     Optional <Stock> existingStock = stockRepository.findById(stockId);
     //stock not found in db
      if(existingStock.isEmpty()){

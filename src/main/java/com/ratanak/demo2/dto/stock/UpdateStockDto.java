@@ -1,9 +1,9 @@
-package com.ratanak.demo2.model.stock;
+package com.ratanak.demo2.dto.stock;
 
 import lombok.Data;
 
 @Data
-public class UpdateStockModel {
+public class UpdateStockDto {
     private Integer operationType;
     private Integer quantity;
 }

@@ -23,4 +23,14 @@ public class Stock {
     private LocalDateTime createdAt;
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void prePersist(){
+        this.createdAt = LocalDateTime.now();
+
+    }
+    @PrePersist
+    public void preUpdate(){
+        this.updatedAt = LocalDateTime.now();
+    }
 }
