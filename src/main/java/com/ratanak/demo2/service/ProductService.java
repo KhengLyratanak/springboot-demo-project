@@ -42,7 +42,7 @@ public class ProductService {
     public ResponseEntity<BaseResponseModel> createProduct(ProductDto product){
         if (productRepository.existsByProductName(product.getName())){
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(new BaseResponseModel("fail","product is already existed"));
+                    .body(new BaseResponseModel("fail","product already exist"));
         }
         Product productEntity = mapper.toEntity(product);
 
