@@ -1,10 +1,15 @@
 package com.ratanak.demo2.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
 @Data
+@JsonPropertyOrder({"user_id","username","email","age","location","role","created_at","updated_at"})
 public class UserResponseDto {
         @JsonProperty("user_id")
         private Long id;
@@ -17,5 +22,11 @@ public class UserResponseDto {
         private String address;
         private String role ;
         private  String email;
+
+        @JsonProperty("created_at")
+        private LocalDateTime createdAt;
+
+        @JsonProperty("updated_at")
+        private LocalDateTime updatedAt;
     }
 

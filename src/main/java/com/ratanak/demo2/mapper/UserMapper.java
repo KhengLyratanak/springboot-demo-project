@@ -44,6 +44,9 @@ public class UserMapper {
         dto.setAge(entity.getAge());
         dto.setAddress(entity.getAddress());
         dto.setRole(entity.getRole());
+        dto.setCreatedAt(entity.getCreatedAt());
+        dto.setUpdatedAt(entity.getUpdatedAt());
+
         return dto;
     }
     public List<UserResponseDto> toDtoList (List<User> entities){
