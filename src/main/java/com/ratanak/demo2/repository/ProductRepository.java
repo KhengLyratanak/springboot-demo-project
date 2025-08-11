@@ -23,4 +23,5 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
             @Param("maxPrice") Double maxPrice
 
     );
+    Boolean existsByProductName (String productName);
 }

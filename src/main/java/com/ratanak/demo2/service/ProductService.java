@@ -1,10 +1,10 @@
 package com.ratanak.demo2.service;
 
-import com.ratanak.demo2.controller.ProductController;
+import com.ratanak.demo2.dto.product.ProductDto;
 import com.ratanak.demo2.entity.Product;
+import com.ratanak.demo2.mapper.ProductMapper;
 import com.ratanak.demo2.model.BaseResponseModel;
 import com.ratanak.demo2.model.BaseResponseWithDataModel;
-import com.ratanak.demo2.model.ProductModel;
 import com.ratanak.demo2.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,10 +19,13 @@ import java.util.Optional;
 public class ProductService {
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private ProductMapper mapper;
     public ResponseEntity<BaseResponseWithDataModel> listProducts(){
         List<Product> products = productRepository.findAll();
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new BaseResponseWithDataModel("succes","successfully retrieve product",products));
+                .body(new BaseResponseWithDataModel("succes","successfully retrieve product",
+                mapper.toDtoList(products)));
     }
     public ResponseEntity<BaseResponseWithDataModel>getProduct(Long productId){
         Optional<Product> product = productRepository.findById(productId);
@@ -36,19 +39,20 @@ public class ProductService {
                 .body(new BaseResponseWithDataModel("success","product found",product.get()));
     }
 
-    public ResponseEntity<BaseResponseModel> createProduct(ProductModel product){
-        Product productEntity = new Product();
-        productEntity.setProductName(product.getName());
-        productEntity.setDescription(product.getDescription());
-        productEntity.setPrice(product.getPrice());
-        productEntity.setCreatedAt(LocalDateTime.now());
+    public ResponseEntity<BaseResponseModel> createProduct(ProductDto product){
+        if (productRepository.existsByProductName(product.getName())){
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(new BaseResponseModel("fail","product is already existed"));
+        }
+        Product productEntity = mapper.toEntity(product);
+
         productRepository.save(productEntity);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new BaseResponseModel("success","success fully created product"));
 
     }
-    public ResponseEntity<BaseResponseModel> updateProduct(Long productId,ProductModel product){
+    public ResponseEntity<BaseResponseModel> updateProduct(Long productId,ProductDto product){
         Optional<Product> existing = productRepository.findById(productId);
         if(existing.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

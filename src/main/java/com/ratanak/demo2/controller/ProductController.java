@@ -1,10 +1,9 @@
 package com.ratanak.demo2.controller;
 
+import com.ratanak.demo2.dto.product.ProductDto;
 import com.ratanak.demo2.model.BaseResponseModel;
 import com.ratanak.demo2.model.BaseResponseWithDataModel;
-import com.ratanak.demo2.model.ProductModel;
 import com.ratanak.demo2.service.ProductService;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,11 +31,11 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<BaseResponseModel> createProduct(@RequestBody ProductModel payload){
+    public ResponseEntity<BaseResponseModel> createProduct(@RequestBody ProductDto payload){
     return  productService.createProduct(payload);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<BaseResponseModel> updatellProduct(@PathVariable("id") Long productId,@RequestBody ProductModel payload){
+    public ResponseEntity<BaseResponseModel> updateProduct(@PathVariable("id") Long productId,@RequestBody ProductDto payload){
         return productService.updateProduct(productId,payload);
     }
     @DeleteMapping("/{id}")
