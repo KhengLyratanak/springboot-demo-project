@@ -6,6 +6,7 @@ import com.ratanak.demo2.mapper.StockMapper;
 import com.ratanak.demo2.model.BaseResponseModel;
 import com.ratanak.demo2.model.BaseResponseWithDataModel;
 import com.ratanak.demo2.dto.stock.UpdateStockDto;
+import com.ratanak.demo2.repository.ProductRepository;
 import com.ratanak.demo2.repository.StockRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,8 @@ import java.util.Optional;
 public class StockService {
     @Autowired
     private StockRepository stockRepository;
+    @Autowired
+    private ProductRepository productRepository;
     @Autowired
     private StockMapper mapper;
     public ResponseEntity<BaseResponseWithDataModel> listStock(){
@@ -38,6 +41,11 @@ public class StockService {
                 .body(new BaseResponseWithDataModel("success ","stock found",stock.get()));
     }
     public ResponseEntity<BaseResponseModel> createStock(StockDto stock){
+        if (!productRepository.existsById(stock.getProductId())){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new BaseResponseModel("fail","product not found" +stock.getProductId()
+                    ));
+        }
         Stock stockEntity = mapper.toEntity(stock);
 
         stockRepository.save(stockEntity);

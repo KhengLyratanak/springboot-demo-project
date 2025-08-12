@@ -2,8 +2,6 @@ package com.ratanak.demo2.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.cglib.core.Local;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -24,13 +22,17 @@ public class Stock {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    // This method will be called before a new entity is persisted (inserted)
     @PrePersist
-    public void prePersist(){
+    public void setCreationDateTime() {
         this.createdAt = LocalDateTime.now();
-
+        // For new entities, updatedAt can also be set to creation time initially
+        this.updatedAt = LocalDateTime.now();
     }
-    @PrePersist
-    public void preUpdate(){
+
+    // This method will be called before an existing entity is updated
+    @PreUpdate
+    public void setUpdateDateTime() {
         this.updatedAt = LocalDateTime.now();
     }
 }
