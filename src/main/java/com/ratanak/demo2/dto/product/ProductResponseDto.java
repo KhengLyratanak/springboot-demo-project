@@ -14,6 +14,8 @@ public class ProductResponseDto {
    @JsonProperty("product_name")
     private String productName;
    private Double price;
+   @JsonProperty("total_stock")
+   private Long totalStock;
    private String description;
 
    @JsonProperty("created_at")
