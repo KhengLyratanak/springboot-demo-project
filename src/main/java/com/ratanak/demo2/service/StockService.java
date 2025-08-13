@@ -1,6 +1,7 @@
 package com.ratanak.demo2.service;
 
 import com.ratanak.demo2.dto.stock.StockDto;
+import com.ratanak.demo2.entity.Product;
 import com.ratanak.demo2.entity.Stock;
 import com.ratanak.demo2.mapper.StockMapper;
 import com.ratanak.demo2.model.BaseResponseModel;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -41,12 +41,13 @@ public class StockService {
                 .body(new BaseResponseWithDataModel("success ","stock found",stock.get()));
     }
     public ResponseEntity<BaseResponseModel> createStock(StockDto stock){
-        if (!productRepository.existsById(stock.getProductId())){
+        Optional<Product> existingProduct = productRepository.findById(stock.getProductId());
+        if (existingProduct.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(new BaseResponseModel("fail","product not found" +stock.getProductId()
                     ));
         }
-        Stock stockEntity = mapper.toEntity(stock);
+        Stock stockEntity = mapper.toEntity(stock,existingProduct.get());
 
         stockRepository.save(stockEntity);
         return ResponseEntity.status(HttpStatus.CREATED)

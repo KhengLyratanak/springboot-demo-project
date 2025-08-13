@@ -2,6 +2,7 @@ package com.ratanak.demo2.mapper;
 
 import com.ratanak.demo2.dto.stock.StockDto;
 import com.ratanak.demo2.dto.stock.StockResponseDto;
+import com.ratanak.demo2.entity.Product;
 import com.ratanak.demo2.entity.Stock;
 import org.springframework.stereotype.Component;
 
@@ -12,10 +13,10 @@ import java.util.stream.Collectors;
 
 @Component
 public class StockMapper {
-    public Stock toEntity(StockDto dto){
+    public Stock toEntity(StockDto dto, Product product){
         Stock entity = new Stock();
         entity.setQuantity(dto.getQuantity());
-        entity.setProductId(dto.getProductId());
+        entity.setProduct(product);
         return entity;
     }
 
@@ -23,7 +24,7 @@ public class StockMapper {
         StockResponseDto dto = new StockResponseDto();
 
         dto.setId(entity.getId());
-        dto.setProductid(entity.getProductId());
+        dto.setProductid(entity.getProduct().getId());
         dto.setQty(entity.getQuantity());
         dto.setCreatedAt(entity.getCreatedAt());
         dto.setUpdatedAt(entity.getUpdatedAt());
