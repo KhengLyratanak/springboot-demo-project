@@ -1,8 +1,10 @@
 package com.ratanak.demo2.controller;
 
+import com.ratanak.demo2.dto.user.UpdateUserDto;
 import com.ratanak.demo2.model.BaseResponseModel;
 import com.ratanak.demo2.model.BaseResponseWithDataModel;
 import com.ratanak.demo2.dto.user.UserDto;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +12,7 @@ import com.ratanak.demo2.service.UserService;
 
 @RestController
 @RequestMapping("/api/v1/users")
-public class Testcontroller {
+public class Usercontroller {
     @Autowired
     private UserService userService;
 
@@ -24,13 +26,14 @@ public class Testcontroller {
     }
 
     @PostMapping()
-    public ResponseEntity<BaseResponseModel> createUser(@RequestBody UserDto payload) {
+    public ResponseEntity<BaseResponseModel> createUser( @Valid @RequestBody UserDto payload) {
         return userService.createUser(payload);
     }
 
     //endpoint  /api/v1/users/id
     @PutMapping("/{user_id}")
-    public ResponseEntity<BaseResponseModel> updateUser(@PathVariable("user_id") Long userId, @RequestBody UserDto payload) {
+    public ResponseEntity<BaseResponseModel> updateUser(@PathVariable("user_id") Long userId, @Valid @RequestBody
+    UpdateUserDto payload) {
         return userService.updateUser(payload, userId);
     }
     //that call path veriable

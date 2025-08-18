@@ -1,5 +1,6 @@
 package com.ratanak.demo2.mapper;
 
+import com.ratanak.demo2.dto.user.UpdateUserDto;
 import com.ratanak.demo2.dto.user.UserDto;
 import com.ratanak.demo2.dto.user.UserResponseDto;
 import com.ratanak.demo2.entity.User;
@@ -24,15 +25,14 @@ public class UserMapper {
         return entity;
     }
 
-    public void updateEntityFromDto(User entity, UserDto dto){
+    public void updateEntityFromDto(User entity, UpdateUserDto dto){
         if(entity == null || dto == null){
             return;
         }
         entity.setName(dto.getFirstName());
-        entity.setEmail(dto.getEmail());
-        entity.setPassword(dto.getPassword());
         entity.setRole(dto.getRole());
         entity.setAddress(dto.getAddress());
+        entity.setAge(dto.getAge());
 
     }
     public UserResponseDto toDto(User entity){

@@ -1,5 +1,6 @@
 package com.ratanak.demo2.service;
 
+import com.ratanak.demo2.dto.user.UpdateUserDto;
 import com.ratanak.demo2.dto.user.UserResponseDto;
 import com.ratanak.demo2.exception.model.DuplicateResourceException;
 import com.ratanak.demo2.exception.model.ResourceNotFoundException;
@@ -66,7 +67,7 @@ public class UserService {
                 .body(new BaseResponseModel("succes", "succesfully created user"));
     }
 
-    public ResponseEntity<BaseResponseModel> updateUser(UserDto payload, Long userid) {
+    public ResponseEntity<BaseResponseModel> updateUser(UpdateUserDto payload, Long userid) {
 
         User existing = userRepository.findById(userid)
                 .orElseThrow(() -> new ResourceNotFoundException("user not found with id :" + userid));
