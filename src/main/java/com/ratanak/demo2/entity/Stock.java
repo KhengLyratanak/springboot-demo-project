@@ -22,6 +22,10 @@ public class Stock {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "supplier_id")
+        private Supplier supplier;
     // This method will be called before a new entity is persisted (inserted)
     @PrePersist
     public void setCreationDateTime() {

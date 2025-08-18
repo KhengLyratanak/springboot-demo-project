@@ -2,7 +2,7 @@ package com.ratanak.demo2.controller;
 
 import com.ratanak.demo2.model.BaseResponseModel;
 import com.ratanak.demo2.model.BaseResponseWithDataModel;
-import com.ratanak.demo2.dto.UserDto;
+import com.ratanak.demo2.dto.user.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

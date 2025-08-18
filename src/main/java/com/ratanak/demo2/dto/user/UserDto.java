@@ -1,4 +1,4 @@
-package com.ratanak.demo2.dto;
+package com.ratanak.demo2.dto.user;
 
 import lombok.*;
 

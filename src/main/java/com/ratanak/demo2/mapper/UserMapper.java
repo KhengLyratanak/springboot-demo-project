@@ -1,7 +1,7 @@
 package com.ratanak.demo2.mapper;
 
-import com.ratanak.demo2.dto.UserDto;
-import com.ratanak.demo2.dto.UserResponseDto;
+import com.ratanak.demo2.dto.user.UserDto;
+import com.ratanak.demo2.dto.user.UserResponseDto;
 import com.ratanak.demo2.entity.User;
 import org.springframework.stereotype.Component;
 
