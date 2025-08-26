@@ -30,7 +30,7 @@ public class SupplierController {
     @PutMapping("{supplier_id}")
     public ResponseEntity<BaseResponseModel> updateSupplier(
             @PathVariable("supplier_id") Long supplierId,
-            @RequestBody UpdateSupplierDto payload
+           @Valid @RequestBody UpdateSupplierDto payload
     ) {
         return supplierService.updateSupplier(supplierId,payload);
     }
