@@ -1,5 +1,7 @@
 package com.ratanak.demo2.dto.user;
 
+import com.ratanak.demo2.common.annotation.ValidEnum;
+import com.ratanak.demo2.common.enums.Role;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -19,5 +21,7 @@ public class UpdateUserDto {
     @Size(min = 5, max = 50, message = "address must be between 5 and 50 characters")
     private String address;
 
+    @NotNull(message = "role is required")
+    @ValidEnum(enumClass = Role.class,message = "Role will be user or admin")
     private String role = "USER";
 }

@@ -58,4 +58,7 @@ public class UserMapper {
                 .collect(Collectors.toList());
 
     }
+    public void updateEntityChangePassword(User entity,String password){
+        entity.setPassword(password);
+    }
 }

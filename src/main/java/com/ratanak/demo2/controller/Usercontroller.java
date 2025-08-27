@@ -1,5 +1,6 @@
 package com.ratanak.demo2.controller;
 
+import com.ratanak.demo2.dto.user.ChangePasswordUserDto;
 import com.ratanak.demo2.dto.user.UpdateUserDto;
 import com.ratanak.demo2.model.BaseResponseModel;
 import com.ratanak.demo2.model.BaseResponseWithDataModel;
@@ -40,5 +41,11 @@ public class Usercontroller {
     @DeleteMapping("/{user_id}")
     public ResponseEntity<BaseResponseModel> deleteUser(@PathVariable("user_id") Long userId) {
         return userService.deleteUser(userId);
+    }
+    @PatchMapping("/{user_id}/p")
+    public ResponseEntity<BaseResponseModel> changePassword(@PathVariable("user_id") Long userId,@RequestBody ChangePasswordUserDto
+            payload) {
+        return userService.changePassword(payload,userId);
+
     }
 }
