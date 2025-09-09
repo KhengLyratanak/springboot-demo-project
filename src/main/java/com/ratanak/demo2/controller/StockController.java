@@ -23,7 +23,7 @@ public class StockController {
 
     @GetMapping
     public ResponseEntity<BaseResponseWithDataModel> listStock(){
-    return stockService.listStock();
+    return stockService.listStocks();
     }
 
     @PostMapping

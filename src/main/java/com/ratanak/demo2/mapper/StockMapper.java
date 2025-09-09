@@ -11,12 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Component
 public class StockMapper {
-    public Stock toEntity(StockDto dto, Product product){
+    public Stock toEntity(StockDto dto, Product product) {
         Stock entity = new Stock();
+
         entity.setQuantity(dto.getQuantity());
         entity.setProduct(product);
+
         return entity;
     }
 
@@ -24,21 +27,21 @@ public class StockMapper {
         StockResponseDto dto = new StockResponseDto();
 
         dto.setId(entity.getId());
-        dto.setProductid(entity.getProduct().getId());
+        dto.setProductId(entity.getProduct().getId());
         dto.setQty(entity.getQuantity());
         dto.setCreatedAt(entity.getCreatedAt());
         dto.setUpdatedAt(entity.getUpdatedAt());
 
         return dto;
     }
+
     public List<StockResponseDto> toDtoList(List<Stock> entities) {
-        if (entities == null || entities.isEmpty()) {
+        if(entities == null || entities.isEmpty()) {
             return new ArrayList<>();
         }
 
         return entities.stream()
                 .map(stock -> this.toDto(stock))
                 .collect(Collectors.toList());
-
     }
 }
