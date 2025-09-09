@@ -19,6 +19,7 @@ public class Usercontroller {
 
     @GetMapping
     public ResponseEntity<BaseResponseWithDataModel>ListUsers() {
+
         return userService.ListUsers();
     }
     @GetMapping("{id}")
