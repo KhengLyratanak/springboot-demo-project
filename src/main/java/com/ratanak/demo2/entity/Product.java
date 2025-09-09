@@ -1,14 +1,19 @@
 package com.ratanak.demo2.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
 @Table(name= "products")
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(exclude = {"stocks"})
+@EqualsAndHashCode(exclude = {"stocks"})
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +34,8 @@ public class Product {
     public Long getTotalStock(){
         if(stocks==null) return 0L;
 
-        return stocks.stream().mapToLong(stock -> stock.getQuantity())
+        return stocks.stream()
+                .mapToLong(stock -> stock.getQuantity())
                 .sum();
 
     }

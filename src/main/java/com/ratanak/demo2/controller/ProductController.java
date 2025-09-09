@@ -19,6 +19,7 @@ public class ProductController {
     private ProductService productService;
     @GetMapping
     public ResponseEntity<BaseResponseWithDataModel> listproduct(){
+
         return productService.listProducts();
     }
     @GetMapping("/{id}")

@@ -17,8 +17,8 @@ public class ProductMapper {
         Product entity = new Product();
 
         entity.setProductName(dto.getName());
-        entity.setPrice(dto.getPrice());
         entity.setDescription(dto.getDescription());
+        entity.setPrice(dto.getPrice());
 
         return entity;
     }
@@ -35,18 +35,16 @@ public class ProductMapper {
         dto.setUpdatedAt(entity.getUpdatedAt());
 
         return dto;
-
     }
 
     public List<ProductResponseDto> toDtoList(List<Product> entities) {
-        if (entities == null || entities.isEmpty()){
+        if(entities == null || entities.isEmpty()) {
             return new ArrayList<>();
+        }
+
+        return entities.stream()
+                .map(product -> this.toDto(product))
+                .collect(Collectors.toList());
     }
-    return entities.stream()
-            .map(product ->this.toDto(product))
-            .collect(Collectors.toList());
-
 }
-}
-
 
