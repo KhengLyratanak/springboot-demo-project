@@ -2,6 +2,7 @@ package com.ratanak.demo2.exception;
 
 import com.ratanak.demo2.exception.model.DuplicateResourceException;
 import com.ratanak.demo2.exception.model.ResourceNotFoundException;
+import com.ratanak.demo2.exception.model.UnprocessableEntityException;
 import com.ratanak.demo2.model.BaseResponseModel;
 import com.ratanak.demo2.model.BaseResponseWithDataModel;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DuplicateResourceException.class)
     public ResponseEntity<BaseResponseModel> handleDuplicateResourceException(DuplicateResourceException ex) {
         return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(new BaseResponseModel("fail",ex.getMessage()));
+    }
+    @ExceptionHandler(UnprocessableEntityException.class)
+    public ResponseEntity<BaseResponseModel> handlerUnprocessableEntity(UnprocessableEntityException ex){
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY)
                 .body(new BaseResponseModel("fail",ex.getMessage()));
     }
 
